@@ -160,7 +160,7 @@ def check_agent_safety(server_src):
             issues.append({'kind': 'eval', 'line': ln, 'detail': m.group(0)})
     # Границы секции ищем по ОРИГИНАЛУ (маркер сам начинается с # — в stripped он стёрт).
     # Смещения совпадают: strip сохраняет длину строк.
-    start = orig.find('# Verus Hand — agentic tool-calling')
+    start = orig.find('# Verus Hand —')
     end = orig.find('\nfunction Get-WinUpdateStatus')
     if start != -1 and end != -1 and end > start:
         section = stripped[start:end]
