@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="ru"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Командная строка для ПК-мастера · Verus Обучение</title>
+<link rel="stylesheet" href="site.css">
+</head><body>
+<header class="top"><a class="home" href="index.html">📚 Verus · Обучение</a><span class="crumb">Модуль 08</span></header>
+<div class="wrap">
+<h1>Командная строка для ПК-мастера</h1><div class="dl">📥 <a href="../08-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.docx">Версия для печати (.docx)</a></div><p>Шестой учебник курса. Командная строка — это <strong>главный профессиональный инструмент</strong> мастера. Половина диагностики делается не кликами в Параметрах Windows, а одной командой в окне командной строки за 2 секунды.</p>
+<p>Учебник разделён на 6 частей:<br />
+1. <strong>CMD vs PowerShell</strong> — что чем отличается, когда что брать<br />
+2. <strong>Базовая навигация</strong> — папки, файлы, что куда положить<br />
+3. <strong>Диагностика системы</strong> — sfc, DISM, chkdsk, bootrec<br />
+4. <strong>Сеть</strong> — ipconfig, ping, tracert, netsh<br />
+5. <strong>Процессы и службы</strong> — tasklist, taskkill, sc, реестр<br />
+6. <strong>Готовые .bat-скрипты</strong> — что положить на флешку мастера</p>
+<hr />
+<h1 id="часть-1-cmd-vs-powershell">Часть 1. CMD vs PowerShell</h1>
+<p>В Windows есть <strong>две</strong> разные командные оболочки. Понимать разницу — важно.</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>CMD (cmd.exe)</th>
+<th>PowerShell (powershell.exe)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Кто старше</strong></td>
+<td>С Windows NT, 1993 г. — старый</td>
+<td>С Windows 7, 2009 г. — современный</td>
+</tr>
+<tr>
+<td><strong>Синтаксис</strong></td>
+<td>Простые команды (<code>dir</code>, <code>ping</code>, <code>del</code>)</td>
+<td>Команды вида <code>Verb-Noun</code> (<code>Get-Process</code>, <code>Stop-Service</code>)</td>
+</tr>
+<tr>
+<td><strong>Универсальность</strong></td>
+<td>Только Windows, прост</td>
+<td>Windows + Mac + Linux (PowerShell Core 7+)</td>
+</tr>
+<tr>
+<td><strong>Удобство для админа</strong></td>
+<td>Слабее</td>
+<td>Сильнее (объекты, конвейер, .NET)</td>
+</tr>
+<tr>
+<td><strong>Совместимость с .bat</strong></td>
+<td>Полная</td>
+<td>Большинство работает через <code>cmd /c</code></td>
+</tr>
+<tr>
+<td><strong>Цвет в логах</strong></td>
+<td>Чёрно-белый</td>
+<td>Цветной (можно настроить)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Правило:</strong><br />
+- <strong>CMD</strong> — для простых одноразовых команд, для совместимости со старыми скриптами, для .bat-файлов<br />
+- <strong>PowerShell</strong> — для всего серьёзного: диагностика SMART, журналы Windows, работа с реестром, циклы и условия</p>
+<p>В большинстве случаев мастеру <strong>достаточно CMD</strong>. PowerShell нужен когда задача сложная.</p>
+<h2 id="как-запустить">Как запустить</h2>
+<p><strong>CMD:</strong><br />
+- <code>Win+R</code> → <code>cmd</code> → Enter (обычные права)<br />
+- Кнопка Пуск → набрать <code>cmd</code> → правой кнопкой «Запуск от имени администратора»<br />
+- <code>Win+X</code> → «Терминал» (Windows 11) → стрелка вниз → «Командная строка»</p>
+<p><strong>PowerShell:</strong><br />
+- <code>Win+R</code> → <code>powershell</code> → Enter<br />
+- <code>Win+X</code> → «Терминал» (Windows 11) — открывается PowerShell по умолчанию<br />
+- Современный «Windows Terminal» из Microsoft Store — лучший вариант, поддерживает вкладки</p>
+<p><strong>От администратора</strong> — для большинства мастерских команд <strong>обязательно</strong>. Без админ-прав sfc, DISM, chkdsk, bootrec, netsh не работают.</p>
+<hr />
+<h1 id="часть-2-базовая-навигация">Часть 2. Базовая навигация</h1>
+<h2 id="21-где-я-нахожусь">2.1. Где я нахожусь</h2>
+<pre><code>cd                     CMD: показать текущую папку
+pwd                    PowerShell: то же самое (или cd без аргументов)
+</code></pre>
+<p>При запуске CMD/PowerShell вы обычно находитесь в <code>C:\Users\&lt;имя&gt;\</code> — это «домашняя папка» пользователя.</p>
+<h2 id="22-переход-в-папку">2.2. Переход в папку</h2>
+<pre><code>cd C:\Windows\System32          перейти в System32
+cd ..                            на уровень выше
+cd \                             в корень текущего диска
+cd ~                             домой (только PowerShell)
+D:                               сменить диск (CMD)
+Set-Location D:\                 PowerShell-эквивалент
+</code></pre>
+<p><strong>Подсказка:</strong> в Проводнике откройте папку → в адресной строке наберите <code>cmd</code> или <code>powershell</code> → Enter. Оболочка откроется уже в этой папке.</p>
+<h2 id="23-что-в-папке">2.3. Что в папке</h2>
+<pre><code>dir                  CMD: список файлов
+dir /a               + скрытые файлы
+dir /s               рекурсивно (включая подпапки)
+dir *.txt            только .txt файлы
+dir | more           постранично (если много)
+
+ls                   PowerShell: то же что dir
+Get-ChildItem        полное имя того же командлета
+ls -Force            + скрытые
+ls -Recurse          рекурсивно
+</code></pre>
+<h2 id="24-создание-удаление-переименование">2.4. Создание / удаление / переименование</h2>
+<pre><code>mkdir test           создать папку test
+md test              то же сокращение (CMD)
+New-Item -ItemType Directory test    PowerShell
+
+rmdir test           удалить ПУСТУЮ папку
+rd /s /q test        удалить с содержимым (рекурсивно, без подтверждения)
+Remove-Item -Recurse -Force test     PowerShell-эквивалент
+
+del file.txt         удалить файл
+Remove-Item file.txt PowerShell
+
+ren old.txt new.txt  переименовать файл
+Rename-Item old.txt new.txt
+</code></pre>
+<h2 id="25-копирование-и-перемещение">2.5. Копирование и перемещение</h2>
+<pre><code>copy a.txt b.txt              скопировать
+xcopy a.txt b.txt             более мощная версия
+xcopy src dst /E /I /Y        копировать папку рекурсивно, без подтверждения
+
+robocopy src dst /E /MIR      зеркальное копирование (продвинутый xcopy)
+robocopy src dst /MT:8        в 8 потоков (быстрее)
+
+move a.txt c:\arc\            переместить
+Move-Item a.txt c:\arc\       PowerShell
+</code></pre>
+<p><strong>Robocopy</strong> — главный инструмент бэкапа на Windows. Параметры:<br />
+- <code>/E</code> — копировать все подпапки (вкл. пустые)<br />
+- <code>/MIR</code> — зеркало (удалит в назначении то чего нет в источнике — осторожно!)<br />
+- <code>/Z</code> — продолжать при обрыве<br />
+- <code>/R:1</code> — 1 повторная попытка при ошибке (вместо 1 миллиона по умолчанию)<br />
+- <code>/W:1</code> — пауза 1 секунда между попытками<br />
+- <code>/XJ</code> — игнорировать junction-точки (защита от циклов)<br />
+- <code>/NFL /NDL /NJH /NJS</code> — сокращённый лог (без списка файлов и заголовков)</p>
+<p>Пример полноценного бэкапа:</p>
+<pre><code>robocopy &quot;C:\Users\Иван\Documents&quot; &quot;D:\Backup\Documents&quot; /E /Z /R:1 /W:1 /XJ
+</code></pre>
+<h2 id="26-просмотр-содержимого-файла">2.6. Просмотр содержимого файла</h2>
+<pre><code>type log.txt              CMD: показать содержимое
+type log.txt | more       постранично
+
+Get-Content log.txt       PowerShell
+cat log.txt               сокращение (алиас)
+Get-Content log.txt -Tail 20    последние 20 строк (как tail)
+</code></pre>
+<h2 id="27-поиск-в-файле-и-по-файлам">2.7. Поиск в файле и по файлам</h2>
+<pre><code>findstr &quot;error&quot; log.txt           CMD: найти слово в файле
+findstr /i &quot;error&quot; log.txt        регистронезависимо
+findstr /s &quot;TODO&quot; *.cs            рекурсивно по всем .cs
+
+Select-String &quot;error&quot; log.txt     PowerShell
+Get-ChildItem -Recurse *.txt | Select-String &quot;TODO&quot;     поиск по всем .txt в подпапках
+</code></pre>
+<hr />
+<h1 id="часть-3-диагностика-системы">Часть 3. Диагностика системы</h1>
+<p>Это <strong>главная</strong> часть для ПК-мастера. Эти команды на каждом ремонте.</p>
+<h2 id="31-sfc-проверка-системных-файлов">3.1. SFC — проверка системных файлов</h2>
+<pre><code>sfc /scannow            проверка и автопочинка
+sfc /verifyonly         только проверка, без починки
+</code></pre>
+<p>Что делает: сканирует все системные файлы Windows, сравнивает с эталонными в <code>C:\Windows\WinSxS</code>, повреждённые заменяет.</p>
+<p>Время: 5-15 минут на SSD, 15-45 на HDD. Безопасно для данных пользователя — их не трогает.</p>
+<p>Лог результатов: <code>C:\Windows\Logs\CBS\CBS.log</code> — там детально что нашёл.</p>
+<p>Если sfc показал «Защита ресурсов Windows нашла повреждённые файлы, но не смогла исправить» — нужен DISM сначала.</p>
+<h2 id="32-dism-починка-хранилища-компонентов">3.2. DISM — починка хранилища компонентов</h2>
+<pre><code>DISM /Online /Cleanup-Image /CheckHealth         быстрая проверка (минута)
+DISM /Online /Cleanup-Image /ScanHealth          детальная проверка (~5 минут)
+DISM /Online /Cleanup-Image /RestoreHealth       автовосстановление из Windows Update
+</code></pre>
+<p>Что делает: чинит <strong>хранилище компонентов</strong> Windows (<code>C:\Windows\WinSxS</code>), откуда sfc берёт эталонные файлы. Если хранилище битое — sfc не сможет починить файлы.</p>
+<p><strong>Правильный порядок при проблемах с системными файлами:</strong><br />
+1. <code>DISM /Online /Cleanup-Image /RestoreHealth</code> (10-30 минут)<br />
+2. <code>sfc /scannow</code> (5-15 минут)<br />
+3. Перезагрузка</p>
+<p>Если интернета нет — DISM не работает. Нужен ISO Windows такой же версии в <code>D:\Win11ISO\</code>:</p>
+<pre><code>DISM /Online /Cleanup-Image /RestoreHealth /Source:WIM:D:\Win11ISO\sources\install.wim:1 /LimitAccess
+</code></pre>
+<h2 id="33-chkdsk-проверка-диска">3.3. CHKDSK — проверка диска</h2>
+<pre><code>chkdsk C:                       только чтение, без правок
+chkdsk C: /f                    + автопочинка ошибок NTFS
+chkdsk C: /f /r                 + проверка bad-секторов (ОЧЕНЬ долго)
+chkdsk C: /f /r /x              + размонтировать диск принудительно
+</code></pre>
+<p>Что делает: проверяет файловую систему NTFS. <code>/r</code> дополнительно сканирует физические сектора диска и помечает битые.</p>
+<p>Время: <code>/f</code> — 5-30 минут. <code>/r</code> на терабайтном диске — <strong>6-12 часов</strong>. Запускать только когда есть время.</p>
+<p>Для системного диска: <code>chkdsk C: /f /r</code> попросит перезагрузку — проверка пройдёт <strong>до загрузки Windows</strong>.</p>
+<p><strong>Когда запускать chkdsk:</strong><br />
+- Симптомы: тормоза, зависания при работе с файлами, ошибки чтения/записи<br />
+- SMART показывает Reallocated Sector Count &gt; 0 (битые сектора)<br />
+- Внезапные перезагрузки во время копирования файлов</p>
+<p><strong>Не лечит:</strong><br />
+- Логические повреждения файлов (это sfc)<br />
+- Виды нарушения NTFS — иногда тоже не справляется, нужны Recuva/TestDisk</p>
+<h2 id="34-bootrec-восстановление-загрузчика">3.4. BOOTREC — восстановление загрузчика</h2>
+<p>Запускается из <strong>среды восстановления WinRE</strong> (выруби ПК 3 раза подряд при загрузке).</p>
+<pre><code>bootrec /fixmbr                 восстановить главную загрузочную запись (MBR)
+bootrec /fixboot                восстановить сектор загрузки активного раздела
+bootrec /scanos                 поиск установленных Windows
+bootrec /rebuildbcd             пересоздать BCD (Boot Configuration Data)
+</code></pre>
+<p>Когда: «No bootable device», «Operating system not found», «BOOTMGR is missing», после неудачного клонирования диска.</p>
+<p><strong>Полный сценарий восстановления загрузки:</strong></p>
+<pre><code>bootrec /fixmbr
+bootrec /fixboot
+bootrec /scanos
+bootrec /rebuildbcd
+</code></pre>
+<p>Если <code>/fixboot</code> выдаёт «Access denied» — это UEFI-система. Тогда:</p>
+<pre><code>bcdboot C:\Windows /s C: /f UEFI
+</code></pre>
+<p>(<code>C:</code> — буква раздела Windows, может быть другой в WinRE).</p>
+<h2 id="35-powercfg-диагностика-батареи-и-питания">3.5. POWERCFG — диагностика батареи и питания</h2>
+<pre><code>powercfg /batteryreport         отчёт по аккумулятору ноута (HTML)
+powercfg /energy                диагностика энергопотребления (час работы → отчёт)
+powercfg /requests              что мешает уходу в сон (играющая программа, например)
+powercfg /lastwake              что разбудило ПК последний раз
+powercfg /sleepstudy            детальная история сна и пробуждений
+</code></pre>
+<p><code>powercfg /batteryreport</code> — главный инструмент при покупке б/у ноута. Покажет:<br />
+- Дизайн-ёмкость (как было новым)<br />
+- Полная зарядка сейчас (как износилось)<br />
+- Износ в процентах<br />
+- История циклов</p>
+<p>При покупке б/у ноута — попроси клиента запустить эту команду перед сделкой.</p>
+<h2 id="36-winsat-оценка-производительности">3.6. WINSAT — оценка производительности</h2>
+<pre><code>winsat formal                   полный тест производительности (5-10 минут)
+winsat disk                     только тест диска
+</code></pre>
+<p>Результат в <code>C:\Windows\Performance\WinSAT\DataStore\*.xml</code>. В Windows 11 этого «индекса производительности» больше нет в Параметрах, но команда работает.</p>
+<p>Полезно: «до» и «после» апгрейда (SSD/RAM) — показать клиенту разницу.</p>
+<hr />
+<h1 id="часть-4-сеть">Часть 4. Сеть</h1>
+<h2 id="41-ipconfig-что-у-меня-с-сетью">4.1. IPCONFIG — что у меня с сетью</h2>
+<pre><code>ipconfig                всё кратко
+ipconfig /all           подробно: MAC-адреса, DHCP, DNS-серверы
+ipconfig /release       освободить IP-адрес
+ipconfig /renew         запросить новый IP
+ipconfig /flushdns      очистить кэш DNS (если сайты вдруг не открываются)
+ipconfig /displaydns    показать текущий кэш DNS
+</code></pre>
+<p>Главное в <code>/all</code>:<br />
+- <strong>IPv4-адрес</strong> — твой IP в локальной сети (обычно 192.168.0.x или 192.168.1.x)<br />
+- <strong>Маска подсети</strong> — обычно 255.255.255.0<br />
+- <strong>Основной шлюз</strong> — IP роутера (обычно 192.168.0.1 или 192.168.1.1)<br />
+- <strong>DNS-серверы</strong> — кто переводит имена в IP (обычно 192.168.x.1 = роутер, либо провайдерский, либо 1.1.1.1/8.8.8.8 если клиент настроил)<br />
+- <strong>MAC-адрес</strong> — физический адрес сетевой карты (нужен для привязки в роутере)</p>
+<p><strong>Подозрительные IP:</strong><br />
+- <code>169.254.x.x</code> — APIPA, DHCP не сработал. Сетевая карта сама себе придумала адрес. Лечится: <code>ipconfig /release</code> + <code>/renew</code>, либо <code>netsh winsock reset</code><br />
+- DNS из «странных» провайдеров типа <code>185.x.x.x</code> без явного выбора клиента — подменён вирусом, проверь</p>
+<h2 id="42-ping-есть-ли-связь">4.2. PING — есть ли связь</h2>
+<pre><code>ping 8.8.8.8                     проверить связь с Google DNS
+ping -t 8.8.8.8                  бесконечный пинг (Ctrl+C для остановки)
+ping -n 100 8.8.8.8              100 пакетов
+ping -l 1500 8.8.8.8             пакет 1500 байт (тест MTU)
+ping ya.ru                       по имени (проверяет DNS тоже)
+</code></pre>
+<p>Что говорят результаты:<br />
+- <strong>&lt;5 мс</strong> — отлично, локальная сеть<br />
+- <strong>5-50 мс</strong> — норма для близких серверов в России<br />
+- <strong>50-150 мс</strong> — норма для зарубежных<br />
+- <strong>&gt;300 мс</strong> — далеко или плохая линия<br />
+- <strong>Превышен интервал ожидания (timeout)</strong> — сервер не отвечает или маршрут не работает<br />
+- <strong>Не удалось обнаружить узел</strong> — DNS не работает или имени нет</p>
+<h2 id="43-tracert-путь-до-сервера">4.3. TRACERT — путь до сервера</h2>
+<pre><code>tracert 8.8.8.8                  через какие узлы идёт трафик
+tracert -d ya.ru                 без обратного DNS (быстрее)
+</code></pre>
+<p>Показывает каждый «прыжок» (hop) до целевого сервера. Полезно для диагностики «где именно тормозит» — иногда видно что у клиента ОК, у провайдера ОК, а у дальнего узла торможение.</p>
+<h2 id="44-nslookup-dns-запрос">4.4. NSLOOKUP — DNS-запрос</h2>
+<pre><code>nslookup ya.ru                       стандартный DNS клиента
+nslookup ya.ru 1.1.1.1               через Cloudflare DNS
+nslookup ya.ru 8.8.8.8               через Google DNS
+</code></pre>
+<p>Полезно когда клиент жалуется «сайт не открывается, а у меня открывается». Может оказаться что у клиента DNS-сервер тормозит или возвращает фейковый IP.</p>
+<h2 id="45-netstat-что-слушает-сеть-на-пк">4.5. NETSTAT — что слушает сеть на ПК</h2>
+<pre><code>netstat -an                          все соединения и порты
+netstat -ano                         + PID процесса
+netstat -ano | findstr :80           кто слушает порт 80
+netstat -ano | findstr LISTENING     только серверные порты
+</code></pre>
+<p>Полезно при подозрении на вирус — увидеть «странное» исходящее соединение или непонятный открытый порт.</p>
+<h2 id="46-netsh-сетевая-магия">4.6. NETSH — сетевая магия</h2>
+<pre><code>netsh winsock reset                  сброс Winsock (после вирусов часто помогает)
+netsh int ip reset                   сброс TCP/IP стека
+netsh int ip reset reset.log         с логом куда писать
+netsh interface show interface       список сетевых интерфейсов
+netsh wlan show profiles             список сохранённых Wi-Fi
+netsh wlan show profile name=&quot;X&quot; key=clear    показать пароль Wi-Fi (с правами админа)
+</code></pre>
+<p><strong><code>netsh winsock reset</code> + <code>netsh int ip reset</code> + перезагрузка</strong> — стандартный приём при «вирус что-то сломал в сети, теперь интернет не работает».</p>
+<p><code>netsh wlan show profile name="X" key=clear</code> — спасает когда клиент: «забыл пароль от своего Wi-Fi, как узнать?». Если он сохранён на ПК — посмотришь в открытом виде.</p>
+<hr />
+<h1 id="часть-5-процессы-службы-реестр">Часть 5. Процессы, службы, реестр</h1>
+<h2 id="51-tasklist-taskkill-управление-процессами">5.1. TASKLIST / TASKKILL — управление процессами</h2>
+<pre><code>tasklist                                 все процессы
+tasklist /v                              + название окна
+tasklist | findstr chrome                все chrome.exe
+tasklist /fi &quot;MEMUSAGE gt 500000&quot;        процессы &gt; 500 МБ памяти
+
+taskkill /im notepad.exe                 убить все блокноты
+taskkill /pid 1234                       убить процесс с PID 1234
+taskkill /f /im notepad.exe              принудительно (как Конец задачи в Диспетчере)
+</code></pre>
+<p><strong>Альтернатива в PowerShell:</strong></p>
+<pre><code>Get-Process | Sort-Object WS -Descending | Select-Object -First 10  топ-10 по памяти
+Stop-Process -Name notepad -Force
+</code></pre>
+<h2 id="52-sc-управление-службами-windows">5.2. SC — управление службами Windows</h2>
+<pre><code>sc query                                 все службы
+sc query state= all                      включая остановленные
+sc query &quot;Print Spooler&quot;                 одна служба
+
+sc start &quot;Print Spooler&quot;                 запустить
+sc stop &quot;Print Spooler&quot;                  остановить
+
+sc config &quot;Print Spooler&quot; start= auto    автозапуск
+sc config &quot;Print Spooler&quot; start= disabled    отключить (Win7+)
+
+sc delete &quot;BadService&quot;                   удалить службу (вирусы часто оставляют)
+</code></pre>
+<p><strong>Внимание к пробелам:</strong> в <code>start= auto</code> обязательно пробел <strong>после</strong> знака <code>=</code>, без пробела <strong>перед</strong>. CMD так требует.</p>
+<h2 id="53-net-устаревшие-но-рабочие-команды">5.3. NET — устаревшие, но рабочие команды</h2>
+<pre><code>net user                          список пользователей
+net user Иван                     инфо по пользователю
+net user Иван NewPass             сменить пароль (с админ-правами)
+net user Иван /add                создать пользователя
+net localgroup Администраторы Иван /add    добавить в группу
+
+net start                         запущенные службы
+net stop &quot;Имя&quot;                    остановить
+
+net share                         расшаренные папки
+net use                           подключенные сетевые диски
+net use Z: \\server\share         подключить
+net use Z: /delete                отключить
+</code></pre>
+<h2 id="54-reg-работа-с-реестром">5.4. REG — работа с реестром</h2>
+<pre><code>reg query &quot;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; /v ProductName
+reg add &quot;HKCU\Software\Test&quot; /v MyKey /t REG_SZ /d &quot;Hello&quot; /f
+reg delete &quot;HKCU\Software\Test&quot; /f
+reg export &quot;HKCU\Software&quot; backup.reg            бэкап ветки в файл
+reg import backup.reg                            восстановить
+</code></pre>
+<p><strong>Топовые места</strong> в реестре где часто живут вирусы (проверить руками):</p>
+<pre><code>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects
+</code></pre>
+<p>Это <strong>автозагрузка</strong> и <strong>расширения IE/Edge</strong>. После очистки от рекламы — проверь что там не остался мусор.</p>
+<h2 id="55-wmic-устарел-но-иногда-нужен">5.5. WMIC — устарел, но иногда нужен</h2>
+<pre><code>wmic cpu get name                       название процессора
+wmic memorychip get capacity,speed      ОЗУ — ёмкость и частота каждой плашки
+wmic diskdrive get model,size           диски — модель и объём
+wmic baseboard get product,manufacturer  материнка
+wmic os get caption,version             версия Windows
+</code></pre>
+<p>В новых Windows 11 WMIC объявлен устаревшим — заменяется на PowerShell <code>Get-CimInstance</code>. Пример:</p>
+<pre><code>Get-CimInstance Win32_Processor | Select-Object Name
+Get-CimInstance Win32_PhysicalMemory | Select-Object Capacity, Speed
+</code></pre>
+<h2 id="56-systeminfo-общая-инфа-о-пк">5.6. SYSTEMINFO — общая инфа о ПК</h2>
+<pre><code>systeminfo                              всё про ПК
+systeminfo | findstr &quot;Память&quot;            только про память
+</code></pre>
+<p>Быстрый снимок ПК для отчёта: модель ПК, версия Windows, дата установки, всё ОЗУ и сколько свободно, домен/рабочая группа, аптайм.</p>
+<hr />
+<h1 id="часть-6-готовые-bat-скрипты-для-флешки-мастера">Часть 6. Готовые .bat-скрипты для флешки мастера</h1>
+<p>Это типовые скрипты которые стоит положить на флешку и запускать в один клик. Все они есть в <code>/скрипты/</code> дашборда Verus.</p>
+<h2 id="61-чистка-временных-файлов">6.1. Чистка временных файлов</h2>
+<p><code>cleanup-temp.bat</code> — освобождает 1-5 ГБ за минуту:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+echo === Чистка временных файлов ===
+echo.
+
+echo Чищу %TEMP%...
+del /q /f /s &quot;%TEMP%\*.*&quot; 2&gt;nul
+for /d %%i in (&quot;%TEMP%\*&quot;) do rd /s /q &quot;%%i&quot; 2&gt;nul
+
+echo Чищу системный TEMP...
+del /q /f /s &quot;C:\Windows\Temp\*.*&quot; 2&gt;nul
+for /d %%i in (&quot;C:\Windows\Temp\*&quot;) do rd /s /q &quot;%%i&quot; 2&gt;nul
+
+echo Чищу Prefetch...
+del /q /f &quot;C:\Windows\Prefetch\*.*&quot; 2&gt;nul
+
+echo Чищу кэш загрузок Windows Update (если не идут обновления!)
+net stop wuauserv 2&gt;nul
+del /q /f /s &quot;C:\Windows\SoftwareDistribution\Download\*.*&quot; 2&gt;nul
+net start wuauserv 2&gt;nul
+
+echo.
+echo === Готово ===
+pause
+</code></pre>
+<p><strong>Запуск:</strong> правой кнопкой → «Запуск от имени администратора». Без админа эти папки не почистятся.</p>
+<h2 id="62-сводный-отчёт-о-пк">6.2. Сводный отчёт о ПК</h2>
+<p><code>pc-report.bat</code> — генерирует отчёт в <code>report.txt</code>:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+set REPORT=%~dp0report_%COMPUTERNAME%_%DATE:/=-%.txt
+echo === Отчёт о ПК === &gt; &quot;%REPORT%&quot;
+echo Дата: %DATE% %TIME% &gt;&gt; &quot;%REPORT%&quot;
+echo Имя ПК: %COMPUTERNAME% &gt;&gt; &quot;%REPORT%&quot;
+echo Пользователь: %USERNAME% &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo === Система === &gt;&gt; &quot;%REPORT%&quot;
+systeminfo | findstr /R /C:&quot;Имя ОС&quot; /C:&quot;Версия ОС&quot; /C:&quot;Дата установки&quot; /C:&quot;Полная физическая память&quot; /C:&quot;Доступная физическая память&quot; &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo === Процессор === &gt;&gt; &quot;%REPORT%&quot;
+wmic cpu get Name,NumberOfCores,NumberOfLogicalProcessors /value 2&gt;nul | findstr &quot;=&quot; &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo === Память === &gt;&gt; &quot;%REPORT%&quot;
+wmic memorychip get Capacity,Speed,Manufacturer /value 2&gt;nul | findstr &quot;=&quot; &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo === Диски === &gt;&gt; &quot;%REPORT%&quot;
+wmic diskdrive get Model,Size,InterfaceType /value 2&gt;nul | findstr &quot;=&quot; &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo === Сеть === &gt;&gt; &quot;%REPORT%&quot;
+ipconfig /all | findstr /C:&quot;IPv4&quot; /C:&quot;MAC&quot; /C:&quot;Шлюз&quot; /C:&quot;DNS&quot; &gt;&gt; &quot;%REPORT%&quot;
+echo. &gt;&gt; &quot;%REPORT%&quot;
+
+echo Отчёт сохранён в: %REPORT%
+notepad &quot;%REPORT%&quot;
+</code></pre>
+<p>Показать клиенту что у него за железо и какая версия Windows — за 10 секунд.</p>
+<h2 id="63-сброс-сети-после-вирусов">6.3. Сброс сети после вирусов</h2>
+<p><code>net-reset.bat</code>:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+echo === Сброс сети ===
+echo.
+echo Винсок:
+netsh winsock reset
+echo.
+echo TCP/IP стек:
+netsh int ip reset
+echo.
+echo Прокси:
+netsh winhttp reset proxy
+echo.
+echo Кэш DNS:
+ipconfig /flushdns
+echo.
+echo === Готово. Перезагружай ПК! ===
+pause
+</code></pre>
+<p>После запуска <strong>обязательно</strong> перезагрузка — иначе сброс не применится.</p>
+<h2 id="64-sfc-dism-лечение-системных-файлов">6.4. SFC + DISM — лечение системных файлов</h2>
+<p><code>sfc-dism.bat</code>:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+echo === Лечение системных файлов Windows ===
+echo Внимание: займёт 15-45 минут!
+echo.
+pause
+
+echo --- Шаг 1: DISM RestoreHealth ---
+DISM /Online /Cleanup-Image /RestoreHealth
+echo.
+
+echo --- Шаг 2: SFC scannow ---
+sfc /scannow
+echo.
+
+echo === Готово ===
+echo Рекомендую перезагрузить ПК.
+pause
+</code></pre>
+<h2 id="65-история-bsod">6.5. История BSOD</h2>
+<p><code>bsod-history.bat</code>:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+echo === История BSOD за последние 7 дней ===
+wmic recoveros get autoreboot, debuginfotype, OverwriteExistingDebugFile /value 2&gt;nul
+echo.
+echo === Минидампы ===
+dir /b /od &quot;C:\Windows\Minidump\*.dmp&quot; 2&gt;nul
+echo.
+echo Для анализа дампа — BlueScreenView (на флешке).
+pause
+</code></pre>
+<h2 id="66-список-автозагрузки">6.6. Список автозагрузки</h2>
+<p><code>autorun-list.bat</code>:</p>
+<pre><code class="language-bat">@echo off
+chcp 65001 &gt;nul
+echo === Автозагрузка пользователя ===
+reg query &quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Run&quot; 2&gt;nul
+echo.
+echo === Автозагрузка системы ===
+reg query &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Run&quot; 2&gt;nul
+echo.
+echo Для удаления — Autoruns.exe (на флешке).
+pause
+</code></pre>
+<hr />
+<h1 id="кодировка-вывода-частая-проблема">Кодировка вывода — частая проблема</h1>
+<p>В <code>.bat</code>-скриптах с русским текстом нужно <strong>указать кодировку</strong>, иначе будут «крякозябры».</p>
+<p>В начало <code>.bat</code> добавь:</p>
+<pre><code class="language-bat">chcp 65001 &gt;nul
+</code></pre>
+<p><code>65001</code> — UTF-8. Файл <code>.bat</code> должен быть сохранён <strong>в UTF-8 с BOM</strong> или в <strong>CP866</strong> (старая кодировка CMD).</p>
+<p>PowerShell-скрипты (<code>.ps1</code>) — UTF-8 с BOM обязательно для PowerShell 5.1 (стандарт Windows 10/11). Без BOM кириллица читается как cp866 и парсер ломается.</p>
+<hr />
+<h1 id="главные-правила-работы-в-командной-строке">Главные правила работы в командной строке</h1>
+<ol>
+<li><strong>От администратора</strong> — для всех системных команд (sfc, DISM, chkdsk, bootrec, net, sc, reg HKLM, netsh). Без прав — «Access denied»</li>
+<li><strong>Tab-завершение</strong> — начни писать имя → Tab → автодополнит</li>
+<li><strong>Стрелки вверх/вниз</strong> — история введённых команд</li>
+<li><strong>F7</strong> — окно истории команд в текущем сеансе CMD</li>
+<li><strong>Ctrl+C</strong> — прервать команду (не «копировать»! Для копирования — выделить мышью + Enter)</li>
+<li><strong><code>&gt; файл.txt</code></strong> — записать вывод в файл (затирает существующий)</li>
+<li><strong><code>&gt;&gt; файл.txt</code></strong> — дописать в конец</li>
+<li><strong><code>команда1 | команда2</code></strong> — выход первой подаётся на вход второй</li>
+<li><strong><code>команда | findstr "X"</code></strong> — фильтр по тексту</li>
+<li><strong><code>команда | more</code></strong> — постранично</li>
+</ol>
+<hr />
+<h2 id="что-положить-на-флешку-мастера">Что положить на флешку мастера</h2>
+<p>В <code>/скрипты/</code> дашборда Verus уже есть:<br />
+- <code>cleanup-temp.bat</code> — чистка<br />
+- <code>pc-report.bat</code> — отчёт<br />
+- <code>net-reset.bat</code> — сброс сети<br />
+- <code>sfc-dism.bat</code> — лечение файлов<br />
+- <code>bsod-history.bat</code> — история падений<br />
+- <code>autorun-list.bat</code> — автозагрузка</p>
+<p>Дополнительно можешь добавить свои под типовые задачи. Хороший мастер за полгода накапливает 20-30 готовых скриптов под все ситуации.</p>
+<p><strong>Стандартное правило:</strong> перед запуском на чужом ПК — <strong>прочитай скрипт глазами</strong>. Не запускай чужие .bat «вслепую», особенно из интернета.</p>
+<hr />
+<h2 id="главное">Главное</h2>
+<p>Командная строка — это <strong>в 5-10 раз быстрее</strong> чем клики в Параметрах Windows. Освой 30-40 базовых команд из этой главы — этого хватит на 90% мастерских задач.</p>
+<p><code>sfc /scannow</code>, <code>DISM /Online /Cleanup-Image /RestoreHealth</code>, <code>chkdsk C: /f</code>, <code>ipconfig /all</code>, <code>ping ya.ru</code>, <code>netsh winsock reset</code>, <code>tasklist</code>, <code>taskkill /f /im X.exe</code> — это <strong>обязательный минимум</strong> который должен сидеть в пальцах.</p>
+<p>Остальное — справочник, к которому возвращаешься по необходимости.</p><hr><div class="nav"><a class="btn" href="m07.html">← Безопасность мастера</a><a class="btn cy" href="index.html">К списку модулей</a><a class="btn" href="m09.html">Антипаттерны — как НЕ делать (чт →</a></div>
+<footer class="site">Verus · курс ПК-мастера · автор <a href="https://androman.pro" target="_blank" rel="noopener">androman.pro</a> · <a href="https://t.me/andromanpro1c" target="_blank" rel="noopener">Telegram</a></footer>
+</div></body></html>

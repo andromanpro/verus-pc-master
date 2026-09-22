@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verus — Сертификат</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Локальные стили только для страницы сертификата.
+     Цель — пафосная страница A4 landscape с золотой фольгой, орнаментами и печатью. */
+
+  :root {
+    --gold:        #d4af37;
+    --gold-bright: #f5d76e;
+    --gold-deep:   #b8860b;
+    --gold-dark:   #8b6914;
+    --cream:       #f8f1e0;
+    --ink:         #e8d9a8;
+  }
+
+  body { background: #06090f; }
+
+  main#root {
+    max-width: 1140px;
+    padding: 24px 14px 60px;
+  }
+
+  /* === Управляющая панель НАД сертификатом (не печатается) === */
+
+  .cert-controls {
+    text-align: center;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: rgba(13,20,36,0.7);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .cert-controls .btn-gold {
+    background: linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+    color: #2a1f00;
+    font-weight: 700;
+    border: 1px solid var(--gold-deep);
+    padding: 11px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 6px 14px rgba(0,0,0,0.4);
+  }
+  .cert-controls .btn-gold:hover { filter: brightness(1.08); }
+
+  /* === ВВОД ИМЕНИ === */
+
+  .name-input {
+    background: var(--bg-darker);
+    border: 1.5px solid var(--card-border);
+    color: var(--white);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 18px;
+    width: 100%;
+    max-width: 460px;
+    margin-bottom: 20px;
+  }
+  .name-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.18); }
+
+  /* === САМ СЕРТИФИКАТ — A4 landscape (297×210 мм) === */
+
+  .cert-sheet {
+    width: 1120px;
+    aspect-ratio: 297 / 210;          /* пропорции A4 landscape */
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 38%, #14213d 0%, #0a1224 55%, #05080f 100%);
+    color: var(--cream);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.15),
+      0 22px 70px rgba(0,0,0,0.55),
+      0 2px 10px rgba(212,175,55,0.18);
+  }
+
+  /* Тонкие лучи из центра — как от печати */
+  .cert-sheet::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      conic-gradient(from 90deg at 50% 100%,
+        transparent 0deg,
+        rgba(212,175,55,0.04) 4deg,
+        transparent 8deg,
+        transparent 14deg,
+        rgba(34,211,238,0.03) 18deg,
+        transparent 22deg,
+        transparent 30deg,
+        rgba(212,175,55,0.04) 34deg,
+        transparent 38deg);
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  /* === ДВОЙНАЯ ЗОЛОТАЯ РАМКА === */
+
+  .frame-outer {
+    position: absolute;
+    inset: 18px;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  .frame-inner {
+    position: absolute;
+    inset: 28px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  /* === ОРНАМЕНТЫ ПО УГЛАМ === */
+
+  .corner {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    pointer-events: none;
+    color: var(--gold);
+  }
+  .corner.tl { top: 32px;    left: 32px;    transform: rotate(0deg); }
+  .corner.tr { top: 32px;    right: 32px;   transform: rotate(90deg); }
+  .corner.bl { bottom: 32px; left: 32px;    transform: rotate(-90deg); }
+  .corner.br { bottom: 32px; right: 32px;   transform: rotate(180deg); }
+  .corner svg { width: 100%; height: 100%; display: block; }
+
+  /* === ВОДЯНОЙ ЗНАК (полупрозрачный V в центре) === */
+
+  .watermark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0.05;
+    font-family: 'Times New Roman', Georgia, serif;
+    font-weight: 900;
+    font-size: 540px;
+    color: var(--gold-bright);
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* === КОНТЕНТ === */
+
+  .cert-content {
+    position: relative;
+    z-index: 5;
+    height: 100%;
+    padding: 58px 90px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cert-eyebrow {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .cert-monogram {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 4px;
+  }
+
+  .cert-title {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 38px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold-bright);
+    letter-spacing: 1px;
+    margin: 6px 0 4px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+  }
+
+  .cert-subtitle {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+
+  /* Тонкая золотая разделительная линия с орнаментом */
+  .cert-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 14px;
+    color: var(--gold);
+    font-size: 14px;
+  }
+  .cert-divider::before,
+  .cert-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dark) 40%, var(--gold) 60%, var(--gold-dark) 80%, transparent);
+    min-width: 80px;
+  }
+
+  /* Имя сертифицируемого — главное */
+  .cert-name {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.05;
+    background: linear-gradient(180deg, #f5d76e 0%, #d4af37 45%, #b8860b 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--gold);  /* fallback */
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    margin: 4px 0 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .cert-body-text {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 760px;
+    margin: 0 auto 12px;
+  }
+  .cert-body-text b { color: var(--gold-bright); font-weight: 700; }
+
+  /* Список модулей — компактный, в одну строку через • */
+  .cert-modules-line {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin: 6px 0 14px;
+    max-width: 850px;
+    line-height: 1.7;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .cert-modules-line .sep { color: var(--gold-dark); margin: 0 8px; }
+
+  /* === ПОДВАЛ: подпись слева, печать справа, дата по центру === */
+
+  .cert-footer {
+    margin-top: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 30px;
+    padding-top: 18px;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--ink);
+    font-family: 'Georgia', serif;
+    font-size: 12px;
+  }
+  .footer-col.left  { align-items: flex-start; }
+  .footer-col.right { align-items: flex-end; }
+
+  .footer-line {
+    width: 220px;
+    border-top: 1px solid var(--gold);
+    padding-top: 6px;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .footer-label {
+    font-family: 'Consolas', monospace;
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .footer-value {
+    font-size: 13px;
+    color: var(--ink);
+    font-style: italic;
+    margin-bottom: 2px;
+  }
+
+  .cert-signature {
+    font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+    font-size: 26px;
+    color: var(--gold-bright);
+    line-height: 1;
+    transform: rotate(-2deg);
+    margin-bottom: 2px;
+  }
+
+  /* === ВОСКОВАЯ ПЕЧАТЬ — SVG === */
+
+  .seal {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  }
+
+  /* === ОТСУТСТВИЕ ПРОГРЕССА === */
+
+  .no-progress {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  /* === ПЕЧАТЬ — A4 LANDSCAPE === */
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  @media print {
+    body { background: white; color: black; }
+    body::before, body::after { display: none; }
+    main#root { max-width: none; padding: 0; }
+    .no-print, .cert-controls { display: none !important; }
+
+    .cert-sheet {
+      width: 297mm;
+      height: 210mm;
+      max-width: none;
+      box-shadow: none;
+      page-break-inside: avoid;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 38%, #fdf6e3 0%, #f8f1e0 55%, #efe5c8 100%);
+      color: #2a1f00;
+    }
+
+    .cert-content { padding: 50px 80px 40px; }
+    .cert-eyebrow { color: var(--gold-deep); }
+    .cert-monogram path { stroke: var(--gold-deep); fill: var(--gold-deep); }
+
+    .cert-title { color: var(--gold-deep); text-shadow: none; }
+    .cert-subtitle { color: #5a4a1a; }
+    .cert-divider { color: var(--gold-deep); }
+    .cert-divider::before, .cert-divider::after {
+      background: linear-gradient(90deg, transparent, var(--gold-deep) 40%, var(--gold) 60%, var(--gold-deep) 80%, transparent);
+    }
+
+    .cert-name {
+      color: var(--gold-deep);
+      -webkit-text-fill-color: var(--gold-deep);
+      background: none;
+      text-shadow: none;
+    }
+
+    .cert-body-text { color: #2a1f00; }
+    .cert-body-text b { color: var(--gold-deep); }
+    .cert-modules-line { color: var(--gold-deep); opacity: 1; }
+    .cert-modules-line .sep { color: var(--gold); }
+
+    .footer-col { color: #2a1f00; }
+    .footer-label { color: var(--gold-deep); }
+    .footer-value { color: #2a1f00; }
+    .footer-line { border-top: 1px solid var(--gold-deep); }
+    .cert-signature { color: var(--gold-deep); }
+
+    .watermark { color: var(--gold); opacity: 0.07; }
+
+    .frame-outer { border-color: var(--gold-deep); }
+    .frame-inner { border-color: var(--gold-dark); }
+    .corner { color: var(--gold-deep); }
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG-defs: переиспользуемые орнаменты и печать -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Орнамент угла (filigree) -->
+    <symbol id="corner-ornament" viewBox="0 0 90 90">
+      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+        <!-- Линии-арки -->
+        <path d="M 6 6 Q 32 6 32 32 Q 32 6 58 6"/>
+        <path d="M 6 6 Q 6 32 32 32 Q 6 32 6 58"/>
+        <!-- Завитки -->
+        <path d="M 32 32 Q 44 32 44 20 Q 44 26 50 26"/>
+        <path d="M 32 32 Q 32 44 20 44 Q 26 44 26 50"/>
+        <!-- Декоративные точки -->
+        <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
+        <circle cx="6"  cy="6"  r="1.4" fill="currentColor"/>
+        <circle cx="58" cy="6"  r="1.4" fill="currentColor"/>
+        <circle cx="6"  cy="58" r="1.4" fill="currentColor"/>
+        <!-- Маленькая звёздочка -->
+        <path d="M 18 18 L 20 14 L 22 18 L 26 20 L 22 22 L 20 26 L 18 22 L 14 20 Z" fill="currentColor" opacity="0.6"/>
+      </g>
+    </symbol>
+
+    <!-- Монограмма V — щит со звездой -->
+    <symbol id="monogram" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="mg-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#f5d76e"/>
+          <stop offset="60%" stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#8b6914"/>
+        </linearGradient>
+      </defs>
+      <!-- Щит -->
+      <path d="M 32 4 L 56 12 L 56 30 Q 56 50 32 60 Q 8 50 8 30 L 8 12 Z"
+            fill="url(#mg-grad)" stroke="#8b6914" stroke-width="1"/>
+      <!-- V -->
+      <path d="M 20 22 L 32 46 L 44 22"
+            fill="none" stroke="#06090f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Звезда сверху -->
+      <path d="M 32 8 L 33.5 11.5 L 37 12 L 34.5 14.5 L 35 18 L 32 16.3 L 29 18 L 29.5 14.5 L 27 12 L 30.5 11.5 Z"
+            fill="#06090f"/>
+    </symbol>
+
+    <!-- Восковая печать -->
+    <symbol id="wax-seal" viewBox="0 0 120 120">
+      <defs>
+        <radialGradient id="seal-grad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%"  stop-color="#f5d76e"/>
+          <stop offset="55%" stop-color="#d4af37"/>
+          <stop offset="100%" stop-color="#7a5a0a"/>
+        </radialGradient>
+        <radialGradient id="seal-shine" cx="35%" cy="30%" r="35%">
+          <stop offset="0%"   stop-color="rgba(255,255,255,0.65)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Зубчатый край печати -->
+      <g transform="translate(60 60)">
+        <g id="seal-teeth">
+          <!-- 24 зубчика — генерируется по кругу -->
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(0)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(15)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(30)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(45)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(60)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(75)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(90)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(105)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(120)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(135)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(150)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(165)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(180)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(195)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(210)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(225)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(240)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(255)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(270)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(285)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(300)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(315)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(330)"/>
+          <path d="M 0 -56 L 3 -50 L -3 -50 Z" fill="#8b6914" transform="rotate(345)"/>
+        </g>
+        <!-- Главный круг печати -->
+        <circle cx="0" cy="0" r="50" fill="url(#seal-grad)" stroke="#5a3f00" stroke-width="1.5"/>
+        <circle cx="0" cy="0" r="50" fill="url(#seal-shine)"/>
+        <!-- Внутреннее кольцо -->
+        <circle cx="0" cy="0" r="42" fill="none" stroke="#5a3f00" stroke-width="0.8"/>
+        <circle cx="0" cy="0" r="36" fill="none" stroke="#5a3f00" stroke-width="0.5" opacity="0.6"/>
+        <!-- Текст по кругу: VERUS ★ CERTIFIED ★ -->
+        <path id="seal-text-path" d="M 0 0 m -38 0 a 38 38 0 1 1 76 0 a 38 38 0 1 1 -76 0" fill="none"/>
+        <text font-family="Georgia, serif" font-size="8" font-weight="700" fill="#3a2800" letter-spacing="2.4">
+          <textPath xlink:href="#seal-text-path" startOffset="2%">VERUS · СЕРТИФИЦИРОВАН · ПК-МАСТЕР · </textPath>
+        </text>
+        <!-- В центре — V и звезда -->
+        <path d="M -12 -8 L 0 14 L 12 -8"
+              fill="none" stroke="#3a2800" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 0 -18 L 1.6 -14 L 6 -14 L 2.4 -11 L 4 -7 L 0 -9.5 L -4 -7 L -2.4 -11 L -6 -14 L -1.6 -14 Z"
+              fill="#3a2800"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<main id="root">
+  <div class="eyebrow"><span class="marker"></span><span>// проверяю прогресс…</span></div>
+</main>
+
+<script src="engine.js"></script>
+<script>
+(function() {
+  const progress = loadProgress();
+  const passed = MODULES.filter(m => progress[m.id] && progress[m.id].passed);
+  const root = document.getElementById('root');
+
+  if (passed.length < MODULES.length) {
+    root.innerHTML = `
+      <div class="eyebrow"><span class="marker"></span><span>// сертификат</span></div>
+      <h1>Сертификат пока недоступен</h1>
+      <div class="no-progress">
+        <p class="lead" style="margin-bottom:18px">Чтобы получить сертификат — нужно пройти <b>все ${MODULES.length} модулей</b> курса с результатом <b>≥ 70%</b>.</p>
+        <p style="font-size:24px;color:var(--gold-bright,#f5d76e);font-family:Georgia,serif;margin:10px 0">
+          ${passed.length} <span style="color:var(--muted)">из ${MODULES.length}</span>
+        </p>
+        <p><a href="index.html" class="btn btn-primary" style="display:inline-block;text-decoration:none;margin-top:16px">← Вернуться к модулям</a></p>
+      </div>
+    `;
+    return;
+  }
+
+  // Все пройдены — показать форму, потом сертификат
+  const savedName = localStorage.getItem('verus-cert-name') || '';
+
+  // Серийный номер из имени + даты (детерминированный)
+  function serialFor(name) {
+    let h = 0;
+    const s = name + '|' + new Date().getFullYear();
+    for (let i = 0; i < s.length; i++) {
+      h = ((h << 5) - h) + s.charCodeAt(i);
+      h |= 0;
+    }
+    const hex = Math.abs(h).toString(16).toUpperCase().padStart(6, '0').slice(0, 6);
+    return 'VERUS-' + new Date().getFullYear() + '-' + hex;
+  }
+
+  function renderCert(name) {
+    const dateLong = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    const totalCorrect = passed.reduce((sum, m) => sum + progress[m.id].score, 0);
+    const totalQuestions = passed.reduce((sum, m) => sum + progress[m.id].total, 0);
+    const pct = Math.round((totalCorrect / totalQuestions) * 100);
+    const serial = serialFor(name);
+
+    // Модули в одну строку через золотую точку
+    const modulesLine = MODULES.map(m => esc(m.title)).join('<span class="sep">◆</span>');
+
+    root.innerHTML = `
+      <div class="cert-controls no-print">
+        <a href="index.html" class="btn-back">← к модулям</a>
+        <button class="btn-gold" onclick="window.print()">🖨 Распечатать / сохранить как PDF</button>
+        <button class="btn" onclick="changeNameAgain()">✎ Изменить имя</button>
+      </div>
+
+      <div class="cert-sheet" id="cert-sheet">
+        <!-- Двойная рамка -->
+        <div class="frame-outer"></div>
+        <div class="frame-inner"></div>
+
+        <!-- Орнаменты углов -->
+        <div class="corner tl"><svg><use href="#corner-ornament"/></svg></div>
+        <div class="corner tr"><svg><use href="#corner-ornament"/></svg></div>
+        <div class="corner bl"><svg><use href="#corner-ornament"/></svg></div>
+        <div class="corner br"><svg><use href="#corner-ornament"/></svg></div>
+
+        <!-- Водяной знак -->
+        <div class="watermark">V</div>
+
+        <!-- Контент -->
+        <div class="cert-content">
+          <svg class="cert-monogram" viewBox="0 0 64 64"><use href="#monogram"/></svg>
+
+          <div class="cert-eyebrow">Verus · Курс ПК-мастера</div>
+          <div class="cert-title">Сертификат о прохождении</div>
+          <div class="cert-subtitle">Certificate of Mastery</div>
+
+          <div class="cert-divider">✦</div>
+
+          <div style="font-family:Georgia,serif;font-size:13px;color:var(--ink);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">Настоящим удостоверяется, что</div>
+          <div class="cert-name">${esc(name)}</div>
+
+          <div class="cert-body-text">
+            прошёл полный курс «Мастер ПК» — <b>все ${MODULES.length} модулей</b> с результатом <b>${pct}%</b> правильных ответов
+            (${totalCorrect} из ${totalQuestions} вопросов).
+            <br>
+            Владеет устройством ПК, диагностикой, восстановлением Windows и данных,
+            сетевой починкой (включая GoodbyeDPI / zapret), знает скрипты разговора с клиентом
+            и готов к легальной работе как самозанятый.
+          </div>
+
+          <div class="cert-modules-line">
+            ${modulesLine}
+          </div>
+
+          <!-- Подвал -->
+          <div class="cert-footer">
+            <div class="footer-col left">
+              <div class="cert-signature">Verus</div>
+              <div class="footer-line">
+                <div class="footer-label">Подпись · Signature</div>
+              </div>
+            </div>
+
+            <div class="footer-col center">
+              <svg class="seal" viewBox="0 0 120 120"><use href="#wax-seal"/></svg>
+              <div class="footer-label">Печать · Seal</div>
+            </div>
+
+            <div class="footer-col right">
+              <div class="footer-value">${dateLong}</div>
+              <div class="footer-line">
+                <div class="footer-label">${serial}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="no-print" style="text-align:center;color:var(--muted);font-size:12px;margin-top:24px;max-width:760px;margin-left:auto;margin-right:auto">
+        Серийный номер <b style="color:var(--gold,#d4af37)">${serial}</b> — детерминированный хэш от имени + года.
+        При печати — <b>Ctrl + P → Сохранить как PDF</b>, ориентация альбомная, без полей.
+      </p>
+    `;
+  }
+
+  function askName() {
+    root.innerHTML = `
+      <div class="eyebrow"><span class="marker"></span><span>// сертификат · шаг 1</span></div>
+      <h1>Все ${MODULES.length} модулей пройдены 🏆</h1>
+      <p class="lead">Поздравляю. Напиши своё имя — оно появится в сертификате. Можно полное (Иванов Иван) или просто имя.</p>
+      <input class="name-input" id="name-input" placeholder="Иван Иванов" value="${esc(savedName)}" autofocus>
+      <br>
+      <button class="btn btn-primary" onclick="onNameDone()">Создать сертификат →</button>
+    `;
+    document.getElementById('name-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') window.onNameDone();
+    });
+  }
+
+  window.onNameDone = function() {
+    const inp = document.getElementById('name-input');
+    const name = inp.value.trim();
+    if (!name) { inp.focus(); inp.style.borderColor = 'var(--rs)'; return; }
+    try { localStorage.setItem('verus-cert-name', name); } catch (e) {}
+    renderCert(name);
+  };
+
+  window.changeNameAgain = askName;
+
+  if (savedName) renderCert(savedName);
+  else askName();
+})();
+</script>
+</body>
+</html>

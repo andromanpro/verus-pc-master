@@ -1,0 +1,16 @@
+VERUS Free
+Copyright (c) 2026 Roman Andriyanov (andromanpro) and contributors.
+
+Original VERUS source code and documentation in this distribution are
+licensed under the Mozilla Public License, version 2.0. See LICENSE.
+
+Third-party code retains its original license. See THIRD_PARTY_NOTICES.md
+and licenses/. The QR generator is licensed under MIT, not relicensed as original VERUS code.
+
+The VERUS name and logo identify the original project. This notice does
+not grant trademark rights or permission to imply endorsement of a fork.
+Images showing third-party product names do not imply their endorsement.
+
+Computer reports, customer data and documents completed by users are
+their data; including them in a generated report does not place their
+private content under the source-code license.

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verus — учебные тесты</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="test-container">
+  <div class="eyebrow">
+    <span class="marker"></span>
+    <span>// загрузка…</span>
+  </div>
+  <p style="color:var(--muted)">Если страница не загружается — проверь что у тебя есть файл <code>engine.js</code> рядом с этим html.</p>
+</main>
+<!-- tests-data.js — встроенные тесты для работы без сервера (file://). Если файла нет — engine.js упадёт обратно на fetch. -->
+<script src="tests-data.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>02-SMART, температуры, BSOD · Verus</title><style>*{box-sizing:border-box}body{margin:0;background:#0a1020;color:#f8fafc;font-family:'Segoe UI',Arial,sans-serif}
+.top{position:sticky;top:0;background:rgba(10,16,32,.95);border-bottom:1px solid #1b2740;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top a{color:#22d3ee;text-decoration:none;font-weight:600}.top .t{font-weight:600}.top .sp{margin-left:auto;color:#94a3b8;font-size:13px}
+.stage{max-width:1000px;margin:18px auto;padding:0 14px}
+.slide{width:100%;border:1px solid #1b2740;border-radius:10px;display:block;background:#0d1424}
+.bar{display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 30px}
+.btn{background:#0f1a2e;border:1px solid #1b2740;border-radius:9px;color:#f8fafc;padding:10px 18px;font-size:15px;cursor:pointer}
+.btn:hover{border-color:#22d3ee}.btn:disabled{opacity:.35;cursor:default}
+.counter{color:#94a3b8;font-family:Consolas,monospace;min-width:64px;text-align:center}
+.hint{color:#94a3b8;font-size:12px;text-align:center;margin-bottom:24px}</style></head><body>
+<div class="top"><a href="index.html">📚 ← К курсу</a><span class="t">02-SMART, температуры, BSOD</span>
+<span class="sp"><a href="../presentations/02-SMART%2C%20%D1%82%D0%B5%D0%BC%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%8B%2C%20BSOD.pptx">📥 .pptx</a></span></div>
+<div class="stage"><img id="sl" class="slide" alt="слайд">
+<div class="bar"><button class="btn" id="prev">← Назад</button>
+<span class="counter" id="cnt"></span>
+<button class="btn" id="next">Вперёд →</button></div>
+<div class="hint">Стрелки ← → на клавиатуре тоже листают</div></div>
+<script>
+var S=['slides/p02/s01.png','slides/p02/s02.png','slides/p02/s03.png','slides/p02/s04.png','slides/p02/s05.png','slides/p02/s06.png','slides/p02/s07.png','slides/p02/s08.png','slides/p02/s09.png','slides/p02/s10.png'],i=0,img=document.getElementById('sl'),cnt=document.getElementById('cnt'),
+P=document.getElementById('prev'),N=document.getElementById('next');
+function show(){img.src=S[i];cnt.textContent=(i+1)+' / '+S.length;P.disabled=(i===0);N.disabled=(i===S.length-1);}
+P.onclick=function(){if(i>0){i--;show();}};N.onclick=function(){if(i<S.length-1){i++;show();}};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')P.onclick();if(e.key==='ArrowRight')N.onclick();});
+show();
+</script></body></html>

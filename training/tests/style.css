@@ -1,0 +1,611 @@
+/* Verus тесты — стиль тот же что в дашборде (тёмная неон-тема) */
+
+:root {
+  --bg: #0d1424;
+  --bg-darker: #0a1020;
+  --card-bg: #0f1a2e;
+  --card-border: #1b2740;
+  --cy: #22d3ee;       /* основной голубой */
+  --mt: #34d399;       /* мята — успех */
+  --am: #fbbf24;       /* янтарь — предупреждение */
+  --pu: #a855f7;       /* фиолетовый */
+  --rs: #fb7185;       /* роза — ошибка */
+  --white: #f8fafc;
+  --muted: #94a3b8;
+  --subtle: #475569;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -10%; left: -5%;
+  width: 350px; height: 350px;
+  background: var(--mt);
+  opacity: 0.08;
+  border-radius: 50%;
+  filter: blur(30px);
+  z-index: 0;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -10%; right: -5%;
+  width: 300px; height: 300px;
+  background: var(--rs);
+  opacity: 0.10;
+  border-radius: 50%;
+  filter: blur(30px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+/* === Header === */
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  color: var(--cy);
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+
+.eyebrow .marker {
+  display: inline-block;
+  width: 12px; height: 12px;
+  background: var(--cy);
+}
+
+.eyebrow .counter {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+h1 {
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  margin-bottom: 14px;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 700px;
+  margin-bottom: 36px;
+}
+
+/* === Главная — карточки модулей === */
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.module-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 22px;
+  cursor: pointer;
+  transition: border-color 0.18s, transform 0.18s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.module-card:hover {
+  border-color: var(--cy);
+  transform: translateY(-2px);
+}
+
+.module-card.completed {
+  border-color: var(--mt);
+  background: linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0.03) 70%, var(--card-bg) 100%);
+  box-shadow: 0 0 0 1px rgba(16,185,129,0.25), 0 4px 18px rgba(16,185,129,0.1);
+  position: relative;
+}
+
+.module-card.completed:hover {
+  border-color: var(--mt);
+  background: linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(16,185,129,0.05) 70%, var(--card-bg) 100%);
+  box-shadow: 0 0 0 1px rgba(16,185,129,0.4), 0 6px 22px rgba(16,185,129,0.18);
+}
+
+.module-card .done-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--mt);
+  color: #08130c;
+  font-size: 16px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(16,185,129,0.5);
+}
+
+.module-num {
+  display: inline-block;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--cy);
+  background: var(--bg-darker);
+  border: 1.5px solid var(--cy);
+  border-radius: 50%;
+  width: 52px; height: 52px;
+  line-height: 48px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.module-card.completed .module-num {
+  color: var(--mt);
+  border-color: var(--mt);
+}
+
+.module-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+
+.module-summary {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.module-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--card-border);
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.module-status .score {
+  color: var(--mt);
+  font-weight: bold;
+}
+
+/* === Прогресс bar === */
+
+.progress-summary {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.progress-summary .big-num {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 48px;
+  color: var(--cy);
+  line-height: 1;
+}
+
+.progress-summary .big-num .of {
+  color: var(--muted);
+  font-size: 24px;
+}
+
+.progress-summary .label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.progress-summary .bar-wrap {
+  flex: 1;
+  min-width: 200px;
+}
+
+.progress-bar {
+  background: var(--bg-darker);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  height: 14px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cy), var(--mt));
+  transition: width 0.5s ease;
+}
+
+.cert-btn {
+  background: var(--bg-darker);
+  border: 1.5px solid var(--mt);
+  color: var(--mt);
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.18s;
+}
+
+.cert-btn:hover { background: var(--mt); color: var(--bg); }
+.cert-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* === Страница теста === */
+
+.test-header {
+  margin-bottom: 30px;
+}
+
+.test-progress {
+  background: var(--bg-darker);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  height: 6px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.test-progress .fill {
+  height: 100%;
+  background: var(--cy);
+  transition: width 0.4s ease;
+}
+
+.question-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 30px;
+  margin-bottom: 24px;
+}
+
+.question-type-tag {
+  display: inline-block;
+  font-family: 'Consolas', monospace;
+  font-size: 11px;
+  color: var(--cy);
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--cy);
+  border-radius: 4px;
+}
+
+.question-type-tag.scenario { color: var(--pu); border-color: var(--pu); }
+
+.question-text {
+  font-size: 19px;
+  margin-bottom: 22px;
+  line-height: 1.4;
+  color: var(--white);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  background: var(--bg-darker);
+  border: 1.5px solid var(--card-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.option:hover { border-color: var(--cy); }
+
+.option.selected {
+  border-color: var(--cy);
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.option.correct {
+  border-color: var(--mt);
+  background: rgba(52, 211, 153, 0.10);
+}
+
+.option.wrong {
+  border-color: var(--rs);
+  background: rgba(251, 113, 133, 0.10);
+}
+
+.option .check {
+  width: 22px; height: 22px;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 1px;
+  position: relative;
+}
+
+.option.selected .check { border-color: var(--cy); }
+.option.selected .check::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: var(--cy);
+  border-radius: 50%;
+}
+
+.option.correct .check { border-color: var(--mt); }
+.option.correct .check::after {
+  content: '✓'; position: absolute; inset: 0;
+  text-align: center; line-height: 22px; color: var(--mt); font-weight: bold; font-size: 15px;
+}
+
+.option.wrong .check { border-color: var(--rs); }
+.option.wrong .check::after {
+  content: '✕'; position: absolute; inset: 0;
+  text-align: center; line-height: 22px; color: var(--rs); font-weight: bold; font-size: 15px;
+}
+
+.option-text { flex: 1; line-height: 1.45; }
+
+.explain {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--bg-darker);
+  border-left: 3px solid var(--cy);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  display: none;
+}
+
+.explain.show { display: block; }
+.explain.correct { border-left-color: var(--mt); }
+.explain.wrong { border-left-color: var(--rs); }
+
+/* === Кнопки === */
+
+.actions {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.btn {
+  background: var(--bg-darker);
+  border: 1.5px solid var(--card-border);
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--cy);
+  color: var(--cy);
+}
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--cy);
+  border-color: var(--cy);
+  color: var(--bg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--mt);
+  border-color: var(--mt);
+  color: var(--bg);
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 8px 0;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-back:hover { color: var(--cy); }
+
+/* === Финальный экран === */
+
+.final-screen {
+  text-align: center;
+  padding: 50px 30px;
+}
+
+.final-score {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 120px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.final-score.pass { color: var(--mt); }
+.final-score.fail { color: var(--am); }
+
+.final-score .of {
+  color: var(--muted);
+  font-size: 60px;
+}
+
+.final-message {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: var(--white);
+}
+
+.final-message.pass::before { content: '✓ '; color: var(--mt); }
+
+.review-list {
+  text-align: left;
+  margin: 30px auto;
+  max-width: 700px;
+}
+
+.review-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 10px;
+}
+
+.review-item .q {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.review-item .correct-answer {
+  color: var(--mt);
+  font-size: 13px;
+}
+
+.review-item .your-answer {
+  color: var(--rs);
+  font-size: 13px;
+}
+
+/* === Сертификат === */
+
+.cert-page {
+  background: var(--card-bg);
+  border: 2px solid var(--cy);
+  border-radius: 16px;
+  padding: 60px 50px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cert-page h1 {
+  color: var(--cy);
+  font-size: 32px;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.cert-page .cert-label {
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+.cert-name {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 48px;
+  color: var(--white);
+  margin: 30px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.cert-body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+
+.cert-modules {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.cert-modules .mod {
+  background: var(--bg-darker);
+  border: 1px solid var(--mt);
+  border-radius: 8px;
+  padding: 12px 8px;
+  font-size: 12px;
+  color: var(--mt);
+}
+
+.cert-modules .mod .num {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 20px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cert-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'Consolas', monospace;
+}
+
+/* === Печать сертификата === */
+
+@media print {
+  body::before, body::after { display: none; }
+  body { background: white; color: black; }
+  main { max-width: none; padding: 0; }
+  .no-print { display: none !important; }
+  .cert-page {
+    background: white;
+    color: black;
+    border-color: #0ea5e9;
+    box-shadow: none;
+  }
+  .cert-page h1, .cert-name { color: black; }
+  .cert-body, .cert-label, .cert-footer { color: #555; }
+  .cert-modules .mod { background: #f5f5f5; color: #0ea5e9; border-color: #0ea5e9; }
+}

@@ -1,0 +1,798 @@
+{
+  "/api/auth/status": {
+    "ok": true,
+    "configured": false,
+    "unlocked": true
+  },
+  "/api/metrics": {
+    "computer": {
+      "host": "DESKTOP-7K2MPQ",
+      "os": "Майкрософт Windows 10 Домашняя",
+      "osBuild": 19045,
+      "model": "ASUS VivoBook X512JA",
+      "mobo": "ASUSTeK COMPUTER INC. X512JA",
+      "bios": "304",
+      "installDate": "2021-03-14",
+      "uptimeH": 3.2
+    },
+    "cpu": {
+      "name": "Intel(R) Core(TM) i5-1035G1 CPU @ 1.00GHz",
+      "cores": 4,
+      "threads": 8,
+      "load": 18,
+      "tempC": 62,
+      "tempSrc": "LibreHardwareMonitor",
+      "baseGHz": 1.19,
+      "l3MB": 6,
+      "virt": false
+    },
+    "memory": {
+      "totalGB": 8,
+      "freeGB": 2.3,
+      "usedPct": 71,
+      "slots": 1,
+      "slotsTotal": 2,
+      "speed": 2666,
+      "type": "DDR4",
+      "modules": [
+        {
+          "sizeGB": 8,
+          "speed": 2666,
+          "mfr": "Samsung",
+          "locator": "ChannelA-DIMM0"
+        }
+      ]
+    },
+    "disksPhysical": [
+      {
+        "name": "Kingston SA400S37240G",
+        "media": "SSD",
+        "sizeGB": 224,
+        "health": "Healthy",
+        "wear": 58,
+        "tempC": 43,
+        "tempSrc": "SMART",
+        "hours": 14320,
+        "readErr": 0,
+        "writeErr": 0,
+        "removable": false
+      },
+      {
+        "name": "Seagate ST1000LM035-1RK172",
+        "media": "HDD",
+        "sizeGB": 932,
+        "health": "Healthy",
+        "wear": null,
+        "tempC": 39,
+        "tempSrc": "SMART",
+        "hours": 9840,
+        "readErr": 0,
+        "writeErr": 0,
+        "removable": false
+      }
+    ],
+    "disksLogical": [
+      {
+        "drive": "C:",
+        "sizeGB": 223.1,
+        "freeGB": 35.7,
+        "usedPct": 84
+      },
+      {
+        "drive": "D:",
+        "sizeGB": 931.5,
+        "freeGB": 612.4,
+        "usedPct": 34
+      }
+    ],
+    "perf": {
+      "cpuPct": 18,
+      "cpuPerf": 96
+    },
+    "top": [
+      {
+        "name": "chrome",
+        "ramMB": 1840,
+        "procs": 14
+      },
+      {
+        "name": "Telegram",
+        "ramMB": 310,
+        "procs": 2
+      },
+      {
+        "name": "OneDrive",
+        "ramMB": 260,
+        "procs": 1
+      },
+      {
+        "name": "MsMpEng",
+        "ramMB": 220,
+        "procs": 1
+      },
+      {
+        "name": "explorer",
+        "ramMB": 180,
+        "procs": 1
+      }
+    ],
+    "gpu": [
+      {
+        "name": "Intel(R) UHD Graphics G1",
+        "vramGB": 1,
+        "driver": "27.20.100.9316",
+        "driverDate": "2021-06-15",
+        "resolution": "1920×1080",
+        "refreshHz": 60,
+        "vendor": "Intel Corporation",
+        "tempC": 58
+      }
+    ],
+    "gpuTempC": 58,
+    "gpuTempSrc": "LibreHardwareMonitor",
+    "network": [
+      {
+        "name": "Wi-Fi",
+        "ip": "192.168.0.104",
+        "gateway": "192.168.0.1",
+        "link": "433 Mbps",
+        "mac": "A4-6B-B6-12-34-56",
+        "dns": "192.168.0.1",
+        "dnsSource": "роутер (локальный)"
+      }
+    ],
+    "battery": {
+      "present": true,
+      "percent": 78,
+      "status": "заряжается",
+      "wearPct": 47,
+      "cycleCount": 412,
+      "designCapacity_mWh": 42000,
+      "fullChargeCapacity_mWh": 22260,
+      "runtimeMin": 96,
+      "name": "ASUS Battery",
+      "manufacturer": "ASUSTeK"
+    },
+    "problems": [
+      "Realtek High Definition Audio — устройство сообщает о проблеме (код 10)"
+    ],
+    "startupCount": 6,
+    "trim": true,
+    "activation": "Активирована",
+    "isAdmin": true,
+    "lhmRunning": true,
+    "lhmAvailable": true,
+    "capabilities": {
+      "localCore": true,
+      "diagnostics": true,
+      "localCrm": true,
+      "documents": true,
+      "localMaintenance": true,
+      "aiOwnKey": true,
+      "personalBackup": true,
+      "managedAi": false,
+      "teamSync": false
+    },
+    "edition": "free",
+    "masterActivated": false,
+    "canActivate": false,
+    "pcID": "demo0a1b2c3d",
+    "score": 63,
+    "integrity": {
+      "checked": false,
+      "ok": true,
+      "changed": [],
+      "missing": []
+    },
+    "modules": {
+      "training": true,
+      "tests": true,
+      "handbook": true,
+      "docs": true,
+      "tools": true,
+      "toolsCount": 7,
+      "mysoftware": true,
+      "mySoftwareCount": 4,
+      "flashFreeGB": 52.3,
+      "flashTotalGB": 118.2
+    },
+    "collectedAt": "2026-07-02 14:52"
+  },
+  "/api/tools": [
+    {
+      "name": "CrystalDiskInfo",
+      "path": "portable/CrystalDiskInfo/DiskInfo64.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "Autoruns",
+      "path": "portable/Sysinternals/Autoruns64.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "Process Explorer",
+      "path": "portable/Sysinternals/procexp64.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "TreeSize Free",
+      "path": "portable/TreeSize/TreeSizeFree.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "HWiNFO",
+      "path": "portable/HWiNFO/HWiNFO64.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "MemTest86",
+      "path": "portable/MemTest86/imageUSB.exe",
+      "available": true,
+      "download": ""
+    },
+    {
+      "name": "Victoria",
+      "path": "portable/Victoria/Victoria.exe",
+      "available": true,
+      "download": ""
+    }
+  ],
+  "/api/winupdate": {
+    "lastInstalled": "2026-06-12",
+    "lastKb": "KB5060533",
+    "totalKb": 14,
+    "pendingReboot": false,
+    "rebootReasons": [],
+    "available": true,
+    "error": null,
+    "hint": null
+  },
+  "/api/netdiag": {
+    "probes": [
+      {
+        "name": "Шлюз (192.168.0.1)",
+        "target": "192.168.0.1",
+        "type": "gw",
+        "ok": true,
+        "errorKind": null,
+        "elapsedMs": 4
+      },
+      {
+        "name": "1.1.1.1",
+        "target": "1.1.1.1",
+        "type": "dns",
+        "ok": true,
+        "errorKind": null,
+        "elapsedMs": 18,
+        "note": "ICMP может быть заблокирован, не критично"
+      },
+      {
+        "name": "8.8.8.8",
+        "target": "8.8.8.8",
+        "type": "dns",
+        "ok": true,
+        "errorKind": null,
+        "elapsedMs": 21,
+        "note": "ICMP может быть заблокирован, не критично"
+      },
+      {
+        "name": "DNS resolve (ya.ru)",
+        "target": "ya.ru",
+        "type": "dnsres",
+        "ok": true,
+        "err": null
+      },
+      {
+        "name": "TLS handshake (Cloudflare)",
+        "target": "cloudflare.com",
+        "type": "tls",
+        "ok": true,
+        "err": null
+      }
+    ],
+    "diagnosis": "Сеть в порядке: DNS и HTTPS работают.",
+    "verdict": "ok",
+    "wifi": {
+      "present": true,
+      "adapterName": "Intel(R) Wireless-AC 9461",
+      "adapterAlias": "Беспроводная сеть",
+      "adapterStatus": "Connected",
+      "svc": "Running",
+      "ssid": "Home_2G",
+      "laptop": true,
+      "level": "ok",
+      "action": "",
+      "note": ""
+    }
+  },
+  "/api/antivirus": {
+    "available": true,
+    "error": null,
+    "avEnabled": true,
+    "realtimeEnabled": true,
+    "tamperProtected": true,
+    "sigsAge": 2,
+    "sigsVersion": "1.421.187.0",
+    "quickScanAge": 5,
+    "quickScanEndTime": "2026-06-27 09:14",
+    "fullScanAge": 41,
+    "fullScanEndTime": "2026-05-22 03:02",
+    "threatsCount": 0,
+    "recentThreats": [],
+    "hint": null
+  },
+  "/api/win11": {
+    "overall": "fixable",
+    "tpm": true,
+    "tpmVersion": "2.0",
+    "secureBoot": false,
+    "uefi": true,
+    "cpu": "Intel(R) Core(TM) i5-1035G1 CPU @ 1.00GHz",
+    "cpuOk": true,
+    "ram": 8,
+    "ramOk": true,
+    "diskOk": true,
+    "reasons": [
+      "Secure Boot выключен — включается в BIOS без переустановки Windows"
+    ]
+  },
+  "/api/reminders/list": {
+    "available": true,
+    "total": 3,
+    "overdue": 1,
+    "week": 1,
+    "month": 2,
+    "items": [
+      {
+        "id": "rem-1",
+        "type": "диск-проверка",
+        "dueDate": "2026-06-28",
+        "daysLeft": -4,
+        "sent": false,
+        "cliName": "Виктор П.",
+        "pcID": "demo1e2f3a4b",
+        "note": "HDD с ошибками чтения — предложить замену"
+      },
+      {
+        "id": "rem-2",
+        "type": "профилактика",
+        "dueDate": "2026-07-05",
+        "daysLeft": 3,
+        "sent": true,
+        "cliName": "Ирина С.",
+        "pcID": "demo5c6d7e8f",
+        "note": ""
+      },
+      {
+        "id": "rem-3",
+        "type": "бэкап-проверка",
+        "dueDate": "2026-07-21",
+        "daysLeft": 19,
+        "sent": false,
+        "cliName": "Светлана М.",
+        "pcID": "demo0a1b2c3d",
+        "note": ""
+      }
+    ]
+  },
+  "/api/log": {
+    "sessionStart": "14:32",
+    "now": "15:07",
+    "files": [
+      "Акт-передачи-Светлана-2026-07-02.pdf"
+    ],
+    "items": [
+      {
+        "time": "14:35",
+        "what": "Акт приёмки заполнен",
+        "detail": "жалоба: «тормозит и шумит»"
+      },
+      {
+        "time": "14:38",
+        "what": "Замер «ДО» зафиксирован",
+        "detail": "оценка 48"
+      },
+      {
+        "time": "14:41",
+        "what": "Чистка временных файлов",
+        "detail": "+32 ГБ на C:"
+      },
+      {
+        "time": "14:47",
+        "what": "Автозагрузка сокращена",
+        "detail": "14 → 6 программ"
+      },
+      {
+        "time": "14:52",
+        "what": "Обновления Windows установлены",
+        "detail": "KB5060533"
+      }
+    ]
+  },
+  "/api/pc/history": {
+    "pcID": "demo0a1b2c3d",
+    "aliasChain": [],
+    "visits": [
+      {
+        "date": "2026-02-15 13:40",
+        "client": "Светлана М.",
+        "phone": "+7 903 000-11-22",
+        "pc": "ASUS VivoBook X512JA",
+        "done": "Чистка от пыли, замена термопасты\nУдаление рекламного ПО (3 шт)",
+        "total": "2500",
+        "risk": "Батарея изношена — со временем потребует замены",
+        "garant": "30"
+      },
+      {
+        "date": "2026-07-02 14:10",
+        "client": "Светлана М.",
+        "phone": "+7 903 000-11-22",
+        "pc": "ASUS VivoBook X512JA",
+        "done": "Чистка диска C: (+32 ГБ свободно)\nАвтозагрузка: 14 → 6 программ\nУстановлены обновления Windows",
+        "total": "1800",
+        "risk": "SSD изношен на 58% — бэкап и плановая замена; батарея 47%; Windows 10 без поддержки",
+        "garant": "30"
+      }
+    ]
+  },
+  "/api/profile": {
+    "empty": false,
+    "profile": {
+      "имя": "Дмитрий",
+      "фамилия": "Кузнецов",
+      "отчество": "",
+      "телефон": "+7 912 000-45-67",
+      "email": "master@example.ru",
+      "статус": "самозанятый",
+      "ИНН": "",
+      "ставка_час": 1500,
+      "гарантия_дней": 30,
+      "qrОплата": "",
+      "Яндекс": "https://yandex.ru/maps/",
+      "2ГИС": "https://2gis.ru/",
+      "Авито": "https://www.avito.ru/"
+    }
+  },
+  "/api/recyclebin": {
+    "ok": true,
+    "bytes": 3489234123,
+    "count": 214,
+    "partial": false
+  },
+  "/api/youtube/probe": {
+    "suspectThrottling": true,
+    "checkedAt": "14:53",
+    "baselineOk": true,
+    "hint": "Похоже на замедление: YouTube, Discord, Telegram — обычно лечится GoodbyeDPI/zapret. Голос/видеозвонки в Telegram — частично (UDP-трафик), нужен zapret.",
+    "items": [
+      {
+        "name": "YouTube",
+        "host_": "www.youtube.com",
+        "ok": false,
+        "connectMs": 52,
+        "handshakeMs": 4015,
+        "error": "TLS: тайм-аут рукопожатия"
+      },
+      {
+        "name": "Discord",
+        "host_": "discord.com",
+        "ok": false,
+        "connectMs": 61,
+        "handshakeMs": 4020,
+        "error": "TLS: тайм-аут рукопожатия"
+      },
+      {
+        "name": "Telegram",
+        "host_": "web.telegram.org",
+        "ok": true,
+        "connectMs": 48,
+        "handshakeMs": 210,
+        "error": null
+      },
+      {
+        "name": "Rutube (базовая линия)",
+        "host_": "rutube.ru",
+        "ok": true,
+        "connectMs": 22,
+        "handshakeMs": 130,
+        "error": null
+      },
+      {
+        "name": "Яндекс (базовая линия)",
+        "host_": "ya.ru",
+        "ok": true,
+        "connectMs": 14,
+        "handshakeMs": 95,
+        "error": null
+      }
+    ]
+  },
+  "/api/youtube/preview": {
+    "legalNote": "Утилиты open-source. Ставятся по запросу клиента, который жалуется на тормоза YouTube/Discord. Откат — кнопка \"Снять сервис\".",
+    "tools": {
+      "zapret": {
+        "serviceState": null,
+        "installerScript": null,
+        "exe": null,
+        "runOnceScript": null,
+        "available": false
+      },
+      "goodbyedpi": {
+        "installerScript": null,
+        "serviceState": null,
+        "exe": null,
+        "available": false,
+        "removerScript": null,
+        "runOnceScript": null
+      }
+    }
+  },
+  "/api/reliability": {
+    "error": null,
+    "available": true,
+    "items": [
+      {
+        "date": "2026-06-29 20:15",
+        "type": "crash",
+        "product": "chrome.exe",
+        "msg": "Имя сбойного приложения: chrome.exe — переполнение памяти при 40+ вкладках."
+      },
+      {
+        "date": "2026-06-14 19:07",
+        "type": "crash",
+        "product": "explorer.exe",
+        "msg": "Имя сбойного приложения: explorer.exe — зависание оболочки, завершено пользователем."
+      }
+    ]
+  },
+  "/api/stability": {
+    "days": 30,
+    "bsod": [],
+    "unexpected": [
+      "2026-06-14"
+    ],
+    "errors": 87,
+    "reboots": 6,
+    "junkGB": 4.2,
+    "available": true,
+    "error": null,
+    "events": [
+      {
+        "date": "2026-06-14 19:22",
+        "type": "unexpected",
+        "msg": "Предыдущее завершение работы системы в 19:07 было неожиданным."
+      }
+    ]
+  },
+  "/api/security": {
+    "av": "Windows Defender",
+    "defender": true,
+    "realtime": true,
+    "tamper": true,
+    "firewall": true,
+    "firewallText": "Domain: вкл · Private: вкл · Public: вкл",
+    "uac": true,
+    "bitlocker": false,
+    "exclusions": 0
+  },
+  "/api/software": [
+    {
+      "id": "324a552002ad",
+      "name": "CrystalDiskInfo",
+      "category": "Диагностика",
+      "type": "portable",
+      "confirm": false,
+      "icon": "💽",
+      "relPath": "CrystalDiskInfo.exe",
+      "sizeMB": 0,
+      "args": ""
+    },
+    {
+      "id": "26f3d77f9c89",
+      "name": "Установка драйвера",
+      "category": "Установщики",
+      "type": "installer",
+      "confirm": true,
+      "icon": "⬇",
+      "relPath": "setup-driver.bat",
+      "sizeMB": 0,
+      "args": ""
+    },
+    {
+      "id": "35c3c910516a",
+      "name": "Сервисный портал",
+      "category": "Ссылки",
+      "type": "shortcut",
+      "confirm": true,
+      "icon": "🔗",
+      "relPath": "Сервис-партнёр.url",
+      "sizeMB": 0,
+      "args": ""
+    },
+    {
+      "id": "12a62edd93fb",
+      "name": "Victoria HDD",
+      "category": "Диагностика",
+      "type": "portable",
+      "confirm": false,
+      "icon": "🩺",
+      "relPath": "Утилиты\\Victoria.exe",
+      "sizeMB": 0,
+      "args": ""
+    }
+  ],
+  "/api/backup-cloud/config": {
+    "ok": false,
+    "error": "No fixture response for this operation"
+  },
+  "/api/ai/config": {
+    "hasKey": true,
+    "keyMask": "sk-or-•••demo",
+    "reasoning": false,
+    "model": "deepseek/deepseek-v4-pro",
+    "maxTokens": 4000,
+    "enabled": true
+  },
+  "/api/ai/usage": {
+    "today": {
+      "cost": 0.04,
+      "calls": 3
+    },
+    "month": {
+      "cost": 0.31,
+      "calls": 27
+    },
+    "total": {
+      "cost": 1.12,
+      "calls": 96
+    },
+    "lastTs": "2026-07-02 14:49",
+    "dailyLimitUsd": 1,
+    "dailyRemaining": 0.96
+  },
+  "/api/ai/tools": {
+    "ok": false,
+    "error": "No fixture response for this operation"
+  },
+  "/api/startup": {
+    "ok": true,
+    "count": 6,
+    "items": [
+      {
+        "user": "DESKTOP-7K2MPQ\\Светлана",
+        "command": "\"C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe\" /background",
+        "name": "OneDrive",
+        "location": "HKCU\\...\\Run"
+      },
+      {
+        "user": "DESKTOP-7K2MPQ\\Светлана",
+        "command": "\"C:\\Users\\Светлана\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe\" -autostart",
+        "name": "Telegram",
+        "location": "HKCU\\...\\Run"
+      },
+      {
+        "user": "NT AUTHORITY\\СИСТЕМА",
+        "command": "\"C:\\WINDOWS\\system32\\SecurityHealthSystray.exe\"",
+        "name": "SecurityHealth",
+        "location": "HKLM\\...\\Run"
+      },
+      {
+        "user": "DESKTOP-7K2MPQ\\Светлана",
+        "command": "\"C:\\Program Files (x86)\\ASUS\\ATK Package\\ATKOSD2\\ATKOSD2.exe\"",
+        "name": "ATKOSD2",
+        "location": "HKCU\\...\\Run"
+      },
+      {
+        "user": "DESKTOP-7K2MPQ\\Светлана",
+        "command": "\"C:\\Program Files\\Realtek\\Audio\\HDA\\RtkNGUI64.exe\" -s",
+        "name": "RtHDVCpl",
+        "location": "HKLM\\...\\Run"
+      },
+      {
+        "user": "DESKTOP-7K2MPQ\\Светлана",
+        "command": "\"C:\\Program Files\\Yandex\\YandexBrowser\\browser.exe\" --background",
+        "name": "YandexBrowser",
+        "location": "HKCU\\...\\Run"
+      }
+    ]
+  },
+  "/api/cloud/config": {
+    "enabled": false,
+    "backend": "wordpress",
+    "url": "",
+    "keySet": false,
+    "pending": 0
+  },
+  "/api/autostart": {
+    "launcherFound": true,
+    "enabled": true
+  },
+  "/api/changelog": {
+    "ok": true,
+    "md": "# Changelog — Verus PC-Master\n\n*(в демо показан сокращённый фрагмент)*\n\n## 0.6.16\n- 🎯 Радар удержания: риск-триггеры (SSD/батарея/Win10) фиксируются при акте передачи, готовое сообщение клиенту.\n\n## 0.6.15\n- Отчёт для клиента: секция «в порядке — тратить деньги не нужно» + итоговый вердикт.\n- Запрос отзыва после акта: QR + ссылки Яндекс/2ГИС/Авито.\n\n## 0.6.10—0.6.14\n- Режим показа клиенту (полноэкранный итог + «До/После»).\n- Вкладка «Периферия»: тесты экрана, клавиатуры, мыши, камеры, микрофона, звука.\n- Плагин-система «Мой софт»: свой софт мастера с флешки.\n- Внешние аудиты безопасности: 0 критичных находок."
+  },
+  "/api/pc/list": {
+    "pcs": [
+      {
+        "pcID": "demo0a1b2c3d",
+        "lastClient": "Светлана М.",
+        "lastPC": "ASUS VivoBook X512JA",
+        "lastPhone": "+7 903 000-11-22",
+        "lastDate": "2026-07-02 14:10",
+        "visits": 2,
+        "lastRisks": [
+          {
+            "k": "disk",
+            "t": "износ SSD 58%",
+            "sev": "mid",
+            "rec": "бэкап, планировать замену"
+          },
+          {
+            "k": "battery",
+            "t": "износ батареи 47%",
+            "sev": "mid",
+            "rec": "замена АКБ"
+          },
+          {
+            "k": "win",
+            "t": "Windows 10 — поддержка завершена (14.10.2025)",
+            "sev": "mid",
+            "rec": "апгрейд под Win11 или переход"
+          }
+        ]
+      },
+      {
+        "pcID": "demo1e2f3a4b",
+        "lastClient": "Виктор П.",
+        "lastPC": "HP Pavilion 15",
+        "lastPhone": "+7 921 000-33-44",
+        "lastDate": "2026-06-08 18:40",
+        "visits": 1,
+        "lastRisks": [
+          {
+            "k": "disk",
+            "t": "ошибки чтения диска (Toshiba MQ04ABF100)",
+            "sev": "high",
+            "rec": "срочный бэкап + замена"
+          },
+          {
+            "k": "win",
+            "t": "Windows 10 — поддержка завершена (14.10.2025)",
+            "sev": "mid",
+            "rec": "апгрейд под Win11 или переход"
+          }
+        ]
+      },
+      {
+        "pcID": "demo5c6d7e8f",
+        "lastClient": "Ирина С.",
+        "lastPC": "Lenovo IdeaPad 3",
+        "lastPhone": "+7 916 000-55-66",
+        "lastDate": "2026-05-27 11:20",
+        "visits": 3,
+        "lastRisks": [
+          {
+            "k": "space",
+            "t": "диск C: почти полон (6.1 ГБ)",
+            "sev": "mid",
+            "rec": "чистка или расширение"
+          }
+        ]
+      },
+      {
+        "pcID": "demo9a0b1c2d",
+        "lastClient": "Алексей Т.",
+        "lastPC": "самосбор (MSI B450)",
+        "lastPhone": "+7 909 000-77-88",
+        "lastDate": "2026-04-19 16:05",
+        "visits": 1,
+        "lastRisks": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+name: Check Free
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r scripts/requirements-test.txt
+      - run: python scripts/check-public-scope.py
+      - run: python scripts/test-ui.py
+      - run: node scripts/test-intake-storage.js
+      - run: node scripts/test-riskcard.js
+      - shell: powershell
+        run: ./scripts/test-temperature-sources.ps1
+      - shell: powershell
+        run: ./scripts/test-agent-invariants.ps1
+      - shell: powershell
+        run: ./scripts/test-update-package.ps1
+      - run: python scripts/test-ui-browser.py --channel msedge
+      - run: python scripts/test-free-api.py
+      - run: python scripts/build-public.py --output dist/public-source
+      - shell: powershell
+        run: ./dist/public-source/flash-staging/build-flash.ps1 -SkipPortable -OutDir "$env:RUNNER_TEMP/verus-artifacts"

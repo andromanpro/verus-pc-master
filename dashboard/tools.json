@@ -1,0 +1,9 @@
+[
+  { "name": "CrystalDiskInfo", "path": "portable/CrystalDiskInfo/DiskInfo64.exe" },
+  { "name": "Autoruns",        "path": "portable/SysinternalsSuite/Autoruns64.exe", "download": "https://download.sysinternals.com/files/SysinternalsSuite.zip", "_note": "Sysinternals: коммерческое ИСПОЛЬЗОВАНИЕ ок, но перераспространение запрещено EULA — НЕ бандлим в продаваемую флешку. Мастер качает сам, распаковывает в portable/SysinternalsSuite/." },
+  { "name": "Process Explorer","path": "portable/SysinternalsSuite/procexp64.exe", "download": "https://download.sysinternals.com/files/SysinternalsSuite.zip" },
+  { "name": "TCPView",         "path": "portable/SysinternalsSuite/TCPView64.exe", "download": "https://download.sysinternals.com/files/SysinternalsSuite.zip" },
+  { "name": "HWiNFO",          "path": "portable/HWiNFO/HWiNFO64.exe", "download": "https://www.hwinfo.com/download/", "_note": "HWiNFO free — ТОЛЬКО для личного использования; в продаваемой флешке бандлить нельзя (release-сборка его исключает). Для коммерции мастеру нужна Pro-лицензия. Качает сам с hwinfo.com (Portable zip)." },
+  { "name": "BleachBit",       "path": "portable/BleachBit/bleachbit.exe", "_note": "GPL, можно распространять. Бандлится в сборку; обновляется апдейтером инструментов." },
+  { "name": "Victoria",        "path": "portable/Victoria/Victoria.exe", "_note": "Тест и восстановление дисков. Бандлится в сборку (Victoria 5.37)." }
+]

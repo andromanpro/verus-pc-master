@@ -1,0 +1,122 @@
+# === Чувствительные данные клиентов мастера ===
+# CRM-история визитов реальных клиентов, акты, телефоны, имена.
+# Никогда не должны попасть в публичный или даже приватный репо.
+дашборд/clients/
+**/clients/
+
+# === Активация флешки ===
+# master.dat — серийник конкретной USB (привязывает Master Edition к одной флешке).
+# dev.flag — маркер dev-копии (отключает проверку USB).
+# Оба индивидуальны для каждой установки.
+дашборд/master.dat
+дашборд/dev.flag
+dashboard/master.dat
+dashboard/dev.flag
+# license.token — RSA-подписанная лицензия конкретной флешки (индивидуальна).
+dashboard/license.token
+license.token
+# .verus-id — install-id флешки (фоллбэк fingerprint).
+**/.verus-id
+
+# === ⚠ ЛИЦЕНЗИОННЫЙ ЦЕНТР — ПРИВАТНЫЙ КЛЮЧ, НИКОГДА НЕ КОММИТИТЬ ===
+# private-key.xml — приватный RSA-ключ автора. Утечка = любой может выпускать лицензии.
+# Живёт ТОЛЬКО на машине автора. В сборку флешки не попадает (build копирует dashboard/).
+license-authority/private-key.xml
+license-authority/*-private*
+
+# === Профиль мастера ===
+# master-profile.json — приватные данные конкретного мастера (имя, телефон, ИНН, qr).
+# Заполняется через welcome-окно при первом запуске. В репо живёт только .example шаблон.
+dashboard/master-profile.json
+
+# === AI-конфиг и логи ===
+# ai-config.json содержит OpenRouter API key — никогда не комитить.
+# В репо живёт только ai-config.example.json.
+dashboard/ai-config.json
+# AI-логи: Q&A (ai-log.jsonl) и tool-лог агента (ai-tool-log.jsonl) — могут
+# содержать данные клиента. Runtime-артефакты, не исходники.
+dashboard/ai-log.jsonl
+dashboard/ai-tool-log.jsonl
+# Облачная синхронизация CRM: cloud-config.json содержит ключ/URL endpoint, очередь — данные клиента.
+dashboard/cloud-config.json
+dashboard/cloud-pending.jsonl
+# Пароль мастера (0.6.28): конверт мастер-ключа (master-auth.json) и конфиг облачного
+# бэкапа с OAuth-токеном (backup-config.json) — приватные артефакты конкретной флешки.
+dashboard/master-auth.json
+dashboard/backup-config.json
+# Развёрнутые копии базы при восстановлении из облака
+dashboard/clients.restore-bak-*/
+# integrity.json генерится при сборке (манифест целостности) — в репо не нужен.
+dashboard/integrity.json
+
+# === Портативные сторонние тулзы ===
+# Качаются через флешка-стейджинг/download-tools.ps1 из upstream.
+# Лицензии разные (GPL/freeware/proprietary), хранить в репо нельзя.
+дашборд/portable/
+дашборд/LibreHardwareMonitor/
+флешка-стейджинг/portable/
+флешка-стейджинг/portable-cache/
+**/portable/
+
+# === Мой софт (master-software/) ===
+# Папка наполняется самим мастером (портативки, инсталляторы, ярлыки) — часто
+# лицензионный/чужой софт, в репо не коммитим. Пустую папку + README + пример
+# манифеста генерит build-flash при сборке (в исходниках её нет).
+master-software/
+ДопСофт/
+
+# === Поставки ===
+# Собранные zip-архивы флешки — артефакты, не исходники.
+dist/
+*.zip
+
+# === Артефакты записи / резервные ===
+*.log
+*.lnk
+*.bak
+*.tmp
+*.corrupt_*
+
+# === Внутренние документы автора ===
+# Личные планы, заметки, маркетинг-стратегии — не для публичной поставки.
+_ПЛАН.md
+_ПЛАН.docx
+_ЛИЧНОЕ.md
+_БРИФ.md
+_СТАРТ.md
+*-private.md
+*-private.docx
+*-personal.md
+
+# === Системное / IDE ===
+.serena/
+.vscode/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# scratch-превью для CSS/JS экспериментов
+.preview-test/
+_Verus*.exe
+_*.exe
+
+# Выпущенные лицензии (операционные записи, фингерпринты покупателей)
+license-authority/issued/
+
+# Бэкапы dashboard при обновлении + пакеты обновления (операционные, индивидуальны)
+**/dashboard.bak.*
+verus-update-*.zip
+
+# Public contributor secrets
+**/private-key.xml
+**/*-private*.xml
+.env
+.env.*
+!.env.example
+
+# Marketing is maintained separately from the Free source repository.
+/landing/
+/marketing/

@@ -1,0 +1,8 @@
+{
+  "_комментарий": "Шаблон конфига для AI-анализа через OpenRouter. Скопируй в ai-config.json (gitignored) и впиши apiKey. Реальный файл редактируется через дашборд: ⚙ Настройки → 🤖 ИИ-ассистент.",
+  "enabled": false,
+  "apiKey": "",
+  "model": "deepseek/deepseek-v4-pro",
+  "reasoning": false,
+  "maxTokens": 4000
+}

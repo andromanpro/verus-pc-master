@@ -1,0 +1,74 @@
+[
+  {
+    "title": "01-Компьютер изнутри",
+    "slug": "p01",
+    "page": "p01.html",
+    "slides": 10
+  },
+  {
+    "title": "02-SMART, температуры, BSOD",
+    "slug": "p02",
+    "page": "p02.html",
+    "slides": 10
+  },
+  {
+    "title": "03-Когда Windows не грузится",
+    "slug": "p03",
+    "page": "p03.html",
+    "slides": 10
+  },
+  {
+    "title": "04-Сети и DPI — починка YouTube",
+    "slug": "p04",
+    "page": "p04.html",
+    "slides": 10
+  },
+  {
+    "title": "05-Восстановление данных",
+    "slug": "p05",
+    "page": "p05.html",
+    "slides": 10
+  },
+  {
+    "title": "06-Путь ПК-мастера за 12 недель",
+    "slug": "p06",
+    "page": "p06.html",
+    "slides": 10
+  },
+  {
+    "title": "07-Самозанятость и акты",
+    "slug": "p07",
+    "page": "p07.html",
+    "slides": 10
+  },
+  {
+    "title": "08-Разговор с клиентом",
+    "slug": "p08",
+    "page": "p08.html",
+    "slides": 10
+  },
+  {
+    "title": "09-Что я смотрю в твоём ПК",
+    "slug": "p09",
+    "page": "p09.html",
+    "slides": 10
+  },
+  {
+    "title": "10-Бэкапы 3-2-1",
+    "slug": "p10",
+    "page": "p10.html",
+    "slides": 10
+  },
+  {
+    "title": "Диагностика по шагам",
+    "slug": "p11",
+    "page": "p11.html",
+    "slides": 8
+  },
+  {
+    "title": "Чистка от вирусов — по-честному",
+    "slug": "p12",
+    "page": "p12.html",
+    "slides": 8
+  }
+]
